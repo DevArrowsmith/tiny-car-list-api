@@ -19,5 +19,6 @@
     "express": "^4.17.1",
     "sequelize": "^6.3.4"
   },
-  "description": ""
+  "description": "",
+  "start": "nodemon -r dotenv/config index.js"
 }
