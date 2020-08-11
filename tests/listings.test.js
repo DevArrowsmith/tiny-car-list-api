@@ -3,6 +3,38 @@ const request = require('supertest');
 const { Listing } = require('../src/models');
 const app = require('../src/app');
 
+const Mock1 = {
+  make: 'Coffeeshop',
+  model: 'Matcha',
+  year: 2010,
+  city: 'Liverpool',
+  email: 'latte@mock.com',
+};
+
+const Mock3 = [
+  {
+    make: 'Chroma',
+    model: 'Chartreuse',
+    year: 2011,
+    city: 'Sheffield',
+    email: 'mapplefordd@imdb.com',
+  },
+  {
+    make: 'Kawaii',
+    model: 'Panda',
+    year: 2013,
+    city: 'Sheffield',
+    email: 'aaugustus1j@aol.com',
+  },
+  {
+    make: 'Vista',
+    model: 'Reykjavik',
+    year: 1996,
+    city: 'Leeds',
+    email: 'kbeertv@weather.com',
+  },
+];
+
 describe('/listing', () => {
   before(async () => {
     try {
@@ -22,13 +54,7 @@ describe('/listing', () => {
 
   describe('POST /listings', () => {
     it('creates a new listing in the tinycarindex database', async () => {
-      const response = await request(app).post('/listing').send({
-        make: 'Coffeeshop',
-        model: 'Matcha',
-        year: 2010,
-        city: 'Liverpool',
-        email: 'latte@mock.com',
-      });
+      const response = await request(app).post('/listing').send(Mock1);
 
       expect(response.status).to.equal(201);
       expect(response.body.make).to.equal('Coffeeshop');
@@ -51,27 +77,9 @@ describe('/listing', () => {
 
     beforeEach(async () => {
       listings = await Promise.all([
-        Listing.create({
-          make: 'Chroma',
-          model: 'Chartreuse',
-          year: 2011,
-          city: 'Sheffield',
-          email: 'mapplefordd@imdb.com',
-        }),
-        Listing.create({
-          make: 'Kawaii',
-          model: 'Panda',
-          year: 2013,
-          city: 'Sheffield',
-          email: 'aaugustus1j@aol.com',
-        }),
-        Listing.create({
-          make: 'Vista',
-          model: 'Reykjavik',
-          year: 1996,
-          city: 'Leeds',
-          email: 'kbeertv@weather.com',
-        }),
+        Listing.create(Mock3[0]),
+        Listing.create(Mock3[1]),
+        Listing.create(Mock3[2]),
       ]);
     });
 
