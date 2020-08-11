@@ -1,4 +1,3 @@
-/* eslint-disable no-console */ // TODO:
 const { expect } = require('chai');
 const request = require('supertest');
 const { Listing } = require('../src/models');
@@ -6,8 +5,6 @@ const app = require('../src/app');
 
 describe('/listing', () => {
   before(async () => {
-    console.log(Listing);
-    console.log('mandarin');
     try {
       await Listing.sequelize.sync();
     } catch (err) {
@@ -46,6 +43,54 @@ describe('/listing', () => {
       await expect(insertedListing.year).to.equal(2010);
       await expect(insertedListing.city).to.equal('Liverpool');
       await expect(insertedListing.email).to.equal('latte@mock.com');
+    });
+  });
+
+  describe('with listings in the tinycarindex database', () => {
+    let listings;
+    beforeEach(async (done) => {
+      await Listing.create({
+        make: 'Chroma',
+        model: 'Chartreuse',
+        year: 2011,
+        city: 'Sheffield',
+        email: 'mapplefordd@imdb.com',
+      });
+      await Listing.create({
+        make: 'Kawaii',
+        model: 'Panda',
+        year: 2013,
+        city: 'Sheffield',
+        email: 'aaugustus1j@aol.com',
+      });
+      await Listing.create({
+        make: 'Vista',
+        model: 'Reykjavik',
+        year: 1996,
+        city: 'Leeds',
+        email: 'kbeertv@weather.com',
+      });
+      await ((listingData) => {
+        listings = listingData;
+      });
+      done();
+    });
+
+    describe('GET /listings', () => {
+      it('gets all listings', (done) => {
+        request(app)
+          .get('/artists')
+          .then((res) => {
+            expect(res.status).to.equal(200);
+            expect(res.body.length).to.equal(3);
+            res.body.forEach((listing) => {
+              const expected = listings.find((a) => a.id === listing.id);
+              expect(listing.make).to.equal(expected.make);
+              expect(listing.model).to.equal(expected.model);
+            });
+            done();
+          });
+      });
     });
   });
 });
