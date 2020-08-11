@@ -84,6 +84,9 @@ describe('/listing', () => {
           const expected = listings.find((l) => l.id === listing.id);
           expect(listing.make).to.equal(expected.make);
           expect(listing.model).to.equal(expected.model);
+          expect(listing.year).to.equal(expected.year);
+          expect(listing.city).to.equal(expected.city);
+          expect(listing.email).to.equal(expected.email);
         });
       });
     });
