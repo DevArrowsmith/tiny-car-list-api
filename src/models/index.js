@@ -17,15 +17,13 @@ const setupDatabase = () => {
     logging: false,
   });
 
-  //connection.sync({ alter: true });
-  //return {};
-
   const Listing = ListingModel(connection, Sequelize);
 
   connection.sync({ alter: true });
   return {
     Listing,
   };
+
 };
 
 module.exports = setupDatabase();
