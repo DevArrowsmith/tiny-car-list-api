@@ -6,4 +6,6 @@ app.use(express.json());
 
 app.post('/listing', listingControllers.create);
 
+app.get('/listing', listingControllers.getAll);
+
 module.exports = app;
