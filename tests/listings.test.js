@@ -3,35 +3,56 @@ const request = require('supertest');
 const { Listing } = require('../src/models');
 const app = require('../src/app');
 
-const Mock1 = {
-  make: 'Coffeeshop',
-  model: 'Matcha',
+const mock1 = {
+  make: 'coffeeshop',
+  model: 'matcha',
   year: 2010,
-  city: 'Liverpool',
+  city: 'liverpool',
   email: 'latte@mock.com',
 };
 
-const Mock3 = [
+const mock6 = [
   {
-    make: 'Chroma',
-    model: 'Chartreuse',
+    make: 'chroma',
+    model: 'chartreuse',
     year: 2011,
-    city: 'Sheffield',
+    city: 'sheffield',
     email: 'mapplefordd@imdb.com',
   },
   {
-    make: 'Kawaii',
-    model: 'Panda',
+    make: 'kawaii',
+    model: 'panda',
     year: 2013,
-    city: 'Sheffield',
+    city: 'sheffield',
     email: 'aaugustus1j@aol.com',
   },
   {
-    make: 'Vista',
-    model: 'Reykjavik',
+    make: 'vista',
+    model: 'reykjavik',
     year: 1996,
-    city: 'Leeds',
+    city: 'leeds',
     email: 'kbeertv@weather.com',
+  },
+  {
+    make: 'stansa',
+    model: 'ska',
+    year: 2005,
+    city: 'london',
+    email: 'cmacquire2m@biglobe.ne.jp',
+  },
+  {
+    make: 'rockstone',
+    model: 'peridot',
+    year: 2012,
+    city: 'sheffield',
+    email: 'chaestier2i@istockphoto.com',
+  },
+  {
+    make: 'vista',
+    model: 'lisbon',
+    year: 2004,
+    city: 'leicester',
+    email: 'egluyusm@msu.edu',
   },
 ];
 
@@ -54,20 +75,20 @@ describe('/listing', () => {
 
   describe('POST /listings', () => {
     it('creates a new listing in the tinycarindex database', async () => {
-      const response = await request(app).post('/listing').send(Mock1);
+      const response = await request(app).post('/listing').send(mock1);
 
       expect(response.status).to.equal(201);
-      expect(response.body.make).to.equal('Coffeeshop');
-      expect(response.body.model).to.equal('Matcha');
+      expect(response.body.make).to.equal('coffeeshop');
+      expect(response.body.model).to.equal('matcha');
       expect(response.body.year).to.equal(2010);
-      expect(response.body.city).to.equal('Liverpool');
+      expect(response.body.city).to.equal('liverpool');
       expect(response.body.email).to.equal('latte@mock.com');
 
       const insertedListing = await Listing.findByPk(response.body.id, { raw: true });
-      expect(insertedListing.make).to.equal('Coffeeshop');
-      expect(insertedListing.model).to.equal('Matcha');
+      expect(insertedListing.make).to.equal('coffeeshop');
+      expect(insertedListing.model).to.equal('matcha');
       expect(insertedListing.year).to.equal(2010);
-      expect(insertedListing.city).to.equal('Liverpool');
+      expect(insertedListing.city).to.equal('liverpool');
       expect(insertedListing.email).to.equal('latte@mock.com');
     });
   });
@@ -76,18 +97,16 @@ describe('/listing', () => {
     let listings;
 
     beforeEach(async () => {
-      listings = await Promise.all([
-        Listing.create(Mock3[0]),
-        Listing.create(Mock3[1]),
-        Listing.create(Mock3[2]),
-      ]);
+      listings = await Promise.all(
+        mock6.map((listing) => Listing.create(listing)),
+      );
     });
 
     describe('GET /listings', () => {
-      it('gets all listings', async () => {
+      it('gets all listings if no query is provided', async () => {
         const res = await request(app).get('/listing');
         expect(res.status).to.equal(200);
-        expect(res.body.length).to.equal(3);
+        expect(res.body.length).to.equal(6);
         res.body.forEach((listing) => {
           const expected = listings.find((l) => l.id === listing.id);
           expect(listing.make).to.equal(expected.make);
@@ -95,6 +114,17 @@ describe('/listing', () => {
           expect(listing.year).to.equal(expected.year);
           expect(listing.city).to.equal(expected.city);
           expect(listing.email).to.equal(expected.email);
+        });
+      });
+
+      it('gets specified listings if queries are provided', async () => {
+        const res = await request(app).get('/listing').query({ city: 'sheffield' });
+        expect(res.status).to.equal(200);
+        expect(res.body.length).to.equal(3);
+        res.body.forEach((listing) => {
+          const expected = listings.find((l) => l.city === listing.city);
+          expect(listing.city).to.equal(expected.city);
+          expect(listing.city).to.equal('sheffield');
         });
       });
     });
