@@ -5,7 +5,7 @@ exports.create = (req, res) => {
 };
 
 exports.getAll = (req, res) => {
-  Listing.findAll().then((listingsData) => {
+  Listing.findAll({ where: req.query }).then((listingsData) => {
     res.status(200).json(listingsData);
   });
 };
