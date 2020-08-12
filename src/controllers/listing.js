@@ -13,3 +13,15 @@ exports.get = (req, res) => {
     }
   });
 };
+
+exports.update = (req, res) => {
+  Listing.update(req.body, { where: { id: req.params.listingId } }).then(
+    (body) => {
+      if (body[0]) {
+        res.status(200).json(body);
+      } else {
+        res.status(404).json({ error: 'This listing could not be found.' });
+      }
+    },
+  );
+};

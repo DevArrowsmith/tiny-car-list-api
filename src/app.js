@@ -8,4 +8,6 @@ app.post('/listing', listingControllers.create);
 
 app.get('/listing', listingControllers.get);
 
+app.patch('/listing/:listingId', listingControllers.update);
+
 module.exports = app;
