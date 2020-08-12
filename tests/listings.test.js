@@ -177,6 +177,8 @@ describe('/listing', () => {
         const res = await request(app).delete(`/listing/${listing.id}`);
         expect(res.status).to.equal(204);
         const checkDeleted = Listing.findByPk(listing.id, { raw: true });
+
+        // eslint-disable-next-line no-unused-expressions
         expect(checkDeleted).to.be.empty;
       });
     });

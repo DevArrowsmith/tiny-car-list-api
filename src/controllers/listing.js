@@ -25,3 +25,16 @@ exports.update = (req, res) => {
     },
   );
 };
+
+exports.delete = (req, res) => {
+  Listing.destroy({ where: { id: req.params.listingId } }).then((body) => {
+    if (body !== 0) {
+      res.status(204).send();
+    } else {
+      res.status(404).json({
+        errormessage:
+          'The listing could not be found and so it was not deleted.',
+      });
+    }
+  });
+};
