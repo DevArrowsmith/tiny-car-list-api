@@ -100,6 +100,12 @@ describe('/listing', () => {
       expect(insertedListing.city).to.equal('liverpool');
       expect(insertedListing.email).to.equal('latte@mock.com');
     });
+
+    it('returns a 401 if unauthorised', async () => {
+      const res = await request(app).post('/listing').send(mock1);
+      expect(res.status).to.equal(401);
+      expect(res.body.error).to.equal('incorrect admin code');
+    });
   });
 
   describe('with listings in the tinycarindex database', () => {
