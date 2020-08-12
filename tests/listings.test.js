@@ -139,7 +139,6 @@ describe('/listing', () => {
       });
     });
 
-
     describe('PATCH /listing', () => {
       it('updates a listing by its id; model test', async () => {
         const listing = listings[0];
@@ -169,6 +168,16 @@ describe('/listing', () => {
           .send({ model: 'pineapple bun' });
         expect(res.status).to.equal(404);
         expect(res.body.error).to.equal('This listing could not be found.');
+      });
+    });
+
+    describe('DELETE /listing', () => {
+      it('deletes a listing by its id', async () => {
+        const listing = listings[0];
+        const res = await request(app).delete(`/listing/${listing.id}`);
+        expect(res.status).to.equal(204);
+        const checkDeleted = Listing.findByPk(listing.id, { raw: true });
+        expect(checkDeleted).to.be.empty;
       });
     });
   });
