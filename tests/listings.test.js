@@ -73,7 +73,7 @@ describe('/listing', () => {
     }
   });
 
-  describe('POST /listings', () => {
+  describe('POST /listing', () => {
     it('creates a new listing in the tinycarindex database', async () => {
       const response = await request(app).post('/listing').send(mock1);
 
@@ -102,7 +102,7 @@ describe('/listing', () => {
       );
     });
 
-    describe('GET /listings', () => {
+    describe('GET /listing', () => {
       it('gets all listings if no query is provided', async () => {
         const res = await request(app).get('/listing');
         expect(res.status).to.equal(200);
@@ -118,7 +118,9 @@ describe('/listing', () => {
       });
 
       it('gets specified listings if queries are provided', async () => {
-        const res = await request(app).get('/listing').query({ city: 'sheffield' });
+        const res = await request(app)
+          .get('/listing')
+          .query({ city: 'sheffield' });
         expect(res.status).to.equal(200);
         expect(res.body.length).to.equal(3);
         res.body.forEach((listing) => {
@@ -126,6 +128,14 @@ describe('/listing', () => {
           expect(listing.city).to.equal(expected.city);
           expect(listing.city).to.equal('sheffield');
         });
+      });
+
+      it('returns a 404 and an error message if the query does not exist', async () => {
+        const res = await request(app)
+          .get('/listing')
+          .query({ city: 'emerald city' });
+        expect(res.status).to.equal(404);
+        expect(res.body.error).to.equal('Your search returned no results.');
       });
     });
   });
