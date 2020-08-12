@@ -82,7 +82,7 @@ describe('/listing', () => {
 
   describe('POST /listing', () => {
     it('creates a new listing in the tinycarindex database', async () => {
-      const response = await request(app).post('/listing').send(mock1);
+      const response = await request(app).post('/listing').set('Authorizer', process.env.ADMIN_CODE).send(mock1);
 
       expect(response.status).to.equal(201);
       expect(response.body.imgref).to.equal('car000_#');
@@ -154,6 +154,7 @@ describe('/listing', () => {
         const listing = listings[0];
         const res = await request(app)
           .patch(`/listing/${listing.id}`)
+          .set('Authorizer', process.env.ADMIN_CODE)
           .send({ model: 'eggshell' });
         expect(res.status).to.equal(200);
         const updatedListing = await Listing.findByPk(listing.id, { raw: true });
@@ -165,6 +166,7 @@ describe('/listing', () => {
         const listing = listings[0];
         const res = await request(app)
           .patch(`/listing/${listing.id}`)
+          .set('Authorizer', process.env.ADMIN_CODE)
           .send({ city: 'lamlash' });
         expect(res.status).to.equal(200);
         const updatedListing = await Listing.findByPk(listing.id, { raw: true });
@@ -175,6 +177,7 @@ describe('/listing', () => {
       it('returns a 404 and an error message if the listing does not exist', async () => {
         const res = await request(app)
           .patch('/listing/99999')
+          .set('Authorizer', process.env.ADMIN_CODE)
           .send({ model: 'pineapple bun' });
         expect(res.status).to.equal(404);
         expect(res.body.error).to.equal('This listing could not be found.');
@@ -184,7 +187,9 @@ describe('/listing', () => {
     describe('DELETE /listing', () => {
       it('deletes a listing by its id', async () => {
         const listing = listings[0];
-        const res = await request(app).delete(`/listing/${listing.id}`);
+        const res = await request(app)
+        .delete(`/listing/${listing.id}`)
+        .set('Authorizer', process.env.ADMIN_CODE);
         expect(res.status).to.equal(204);
         const checkDeleted = Listing.findByPk(listing.id, { raw: true });
 

@@ -1,15 +1,16 @@
 const express = require('express');
 const listingControllers = require('./controllers/listing');
+const adminCode = require('./middleware/admin-code');
 
 const app = express();
 app.use(express.json());
 
-app.post('/listing', listingControllers.create);
+app.post('/listing', adminCode, listingControllers.create);
 
 app.get('/listing', listingControllers.get);
 
-app.patch('/listing/:listingId', listingControllers.update);
+app.patch('/listing/:listingId', adminCode, listingControllers.update);
 
-app.delete('/listing/:listingId', listingControllers.delete);
+app.delete('/listing/:listingId', adminCode, listingControllers.delete);
 
 module.exports = app;
