@@ -188,6 +188,15 @@ describe('/listing', () => {
         expect(res.status).to.equal(404);
         expect(res.body.error).to.equal('This listing could not be found.');
       });
+
+      it('returns a 401 if unauthorised', async () => {
+        const listing = listings[0];
+        const res = await request(app)
+        .patch(`/listing/${listing.id}`)
+        .send({ city: 'lamlash' });
+        expect(res.status).to.equal(401);
+        expect(res.body.error).to.equal('incorrect admin code');
+      });
     });
 
     describe('DELETE /listing', () => {
