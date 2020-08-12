@@ -6,6 +6,10 @@ exports.create = (req, res) => {
 
 exports.get = (req, res) => {
   Listing.findAll({ where: req.query }).then((listingsData) => {
-    res.status(200).json(listingsData);
+    if (!listingsData.length) {
+      res.status(404).json({ error: 'Your search returned no results.' });
+    } else {
+      res.status(200).json(listingsData);
+    }
   });
 };
