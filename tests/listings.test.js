@@ -138,5 +138,19 @@ describe('/listing', () => {
         expect(res.body.error).to.equal('Your search returned no results.');
       });
     });
+
+
+    describe('PATCH /listing', () => {
+      it('updates a listing by its id; model test', async () => {
+        const listing = listings[0];
+        const res = await request(app)
+          .patch(`/listing/${listing.id}`)
+          .send({ model: 'eggshell' });
+        expect(res.status).to.equal(200);
+        const updatedListing = await Listing.findByPk(listing.id, { raw: true });
+        expect(updatedListing.make).to.equal('chroma');
+        expect(updatedListing.model).to.equal('eggshell');
+      });
+    });
   });
 });
