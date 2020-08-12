@@ -211,6 +211,14 @@ describe('/listing', () => {
         // eslint-disable-next-line no-unused-expressions
         expect(checkDeleted).to.be.empty;
       });
+
+      it('returns a 401 if unauthorised', async () => {
+        const listing = listings[0];
+        const res = await request(app)
+        .delete(`/listing/${listing.id}`);
+        expect(res.status).to.equal(401);
+        expect(res.body.error).to.equal('incorrect admin code');
+      });
     });
   });
 });
