@@ -151,6 +151,17 @@ describe('/listing', () => {
         expect(updatedListing.make).to.equal('chroma');
         expect(updatedListing.model).to.equal('eggshell');
       });
+
+      it('updates a listing by its id; city test', async () => {
+        const listing = listings[0];
+        const res = await request(app)
+          .patch(`/listing/${listing.id}`)
+          .send({ city: 'lamlash' });
+        expect(res.status).to.equal(200);
+        const updatedListing = await Listing.findByPk(listing.id, { raw: true });
+        expect(updatedListing.make).to.equal('chroma');
+        expect(updatedListing.city).to.equal('lamlash');
+      });
     });
   });
 });
