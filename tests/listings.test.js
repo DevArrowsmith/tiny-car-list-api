@@ -162,6 +162,14 @@ describe('/listing', () => {
         expect(updatedListing.make).to.equal('chroma');
         expect(updatedListing.city).to.equal('lamlash');
       });
+
+      it('returns a 404 and an error message if the listing does not exist', async () => {
+        const res = await request(app)
+          .patch('/listing/99999')
+          .send({ model: 'pineapple bun' });
+        expect(res.status).to.equal(404);
+        expect(res.body.error).to.equal('This listing could not be found.');
+      });
     });
   });
 });
