@@ -1,5 +1,6 @@
 module.exports = (sequelize, DataTypes) => {
   const schema = {
+    imgref: DataTypes.STRING,
     make: DataTypes.STRING,
     model: DataTypes.STRING,
     year: DataTypes.INTEGER,

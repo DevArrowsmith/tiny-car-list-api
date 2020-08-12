@@ -4,6 +4,7 @@ const { Listing } = require('../src/models');
 const app = require('../src/app');
 
 const mock1 = {
+  imgref: 'car000_#',
   make: 'coffeeshop',
   model: 'matcha',
   year: 2010,
@@ -12,7 +13,8 @@ const mock1 = {
 };
 
 const mock6 = [
-  {
+  { 
+    imgref:'car001_a',
     make: 'chroma',
     model: 'chartreuse',
     year: 2011,
@@ -20,6 +22,7 @@ const mock6 = [
     email: 'mapplefordd@imdb.com',
   },
   {
+    imgref:'car002_b',
     make: 'kawaii',
     model: 'panda',
     year: 2013,
@@ -27,6 +30,7 @@ const mock6 = [
     email: 'aaugustus1j@aol.com',
   },
   {
+    imgref:'car003_c',
     make: 'vista',
     model: 'reykjavik',
     year: 1996,
@@ -34,6 +38,7 @@ const mock6 = [
     email: 'kbeertv@weather.com',
   },
   {
+    imgref:'car004_d',
     make: 'stansa',
     model: 'ska',
     year: 2005,
@@ -41,6 +46,7 @@ const mock6 = [
     email: 'cmacquire2m@biglobe.ne.jp',
   },
   {
+    imgref:'car005_e',
     make: 'rockstone',
     model: 'peridot',
     year: 2012,
@@ -48,6 +54,7 @@ const mock6 = [
     email: 'chaestier2i@istockphoto.com',
   },
   {
+    imgref:'car006_f',
     make: 'vista',
     model: 'lisbon',
     year: 2004,
@@ -78,6 +85,7 @@ describe('/listing', () => {
       const response = await request(app).post('/listing').send(mock1);
 
       expect(response.status).to.equal(201);
+      expect(response.body.imgref).to.equal('car000_#');
       expect(response.body.make).to.equal('coffeeshop');
       expect(response.body.model).to.equal('matcha');
       expect(response.body.year).to.equal(2010);
@@ -85,6 +93,7 @@ describe('/listing', () => {
       expect(response.body.email).to.equal('latte@mock.com');
 
       const insertedListing = await Listing.findByPk(response.body.id, { raw: true });
+      expect(insertedListing.imgref).to.equal('car000_#');
       expect(insertedListing.make).to.equal('coffeeshop');
       expect(insertedListing.model).to.equal('matcha');
       expect(insertedListing.year).to.equal(2010);
@@ -109,6 +118,7 @@ describe('/listing', () => {
         expect(res.body.length).to.equal(6);
         res.body.forEach((listing) => {
           const expected = listings.find((l) => l.id === listing.id);
+          expect(listing.imgref).to.equal(expected.imgref);
           expect(listing.make).to.equal(expected.make);
           expect(listing.model).to.equal(expected.model);
           expect(listing.year).to.equal(expected.year);
