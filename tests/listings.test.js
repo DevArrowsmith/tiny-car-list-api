@@ -8,56 +8,64 @@ const mock1 = {
   make: 'coffeeshop',
   model: 'matcha',
   year: 2010,
+  price: 1000,
   city: 'liverpool',
   email: 'latte@mock.com',
 };
 
 const mock6 = [
-  { 
-    imgref:'car001_a',
+  {
+    imgref: 'car001_a',
     make: 'chroma',
     model: 'chartreuse',
     year: 2011,
+    price: 8000,
     city: 'sheffield',
     email: 'mapplefordd@imdb.com',
   },
   {
-    imgref:'car002_b',
+    imgref: 'car002_b',
     make: 'kawaii',
     model: 'panda',
     year: 2013,
+    price: 2000,
     city: 'sheffield',
     email: 'aaugustus1j@aol.com',
   },
   {
-    imgref:'car003_c',
+    imgref: 'car003_c',
     make: 'vista',
     model: 'reykjavik',
     year: 1996,
+    price: 8000,
     city: 'leeds',
     email: 'kbeertv@weather.com',
   },
   {
-    imgref:'car004_d',
+    imgref: 'car004_d',
     make: 'stansa',
     model: 'ska',
     year: 2005,
+    price: 13000,
+    price: 9000,
     city: 'london',
     email: 'cmacquire2m@biglobe.ne.jp',
   },
   {
-    imgref:'car005_e',
+    imgref: 'car005_e',
     make: 'rockstone',
     model: 'peridot',
     year: 2012,
+    price: 9000,
     city: 'sheffield',
     email: 'chaestier2i@istockphoto.com',
   },
   {
-    imgref:'car006_f',
+    imgref: 'car006_f',
     make: 'vista',
     model: 'lisbon',
     year: 2004,
+    price: 4000,
     city: 'leicester',
     email: 'egluyusm@msu.edu',
   },
@@ -89,6 +97,7 @@ describe('/listing', () => {
       expect(response.body.make).to.equal('coffeeshop');
       expect(response.body.model).to.equal('matcha');
       expect(response.body.year).to.equal(2010);
+      expect(response.body.price).to.equal(1000);
       expect(response.body.city).to.equal('liverpool');
       expect(response.body.email).to.equal('latte@mock.com');
 
@@ -97,6 +106,7 @@ describe('/listing', () => {
       expect(insertedListing.make).to.equal('coffeeshop');
       expect(insertedListing.model).to.equal('matcha');
       expect(insertedListing.year).to.equal(2010);
+      expect(insertedListing.price).to.equal(1000);
       expect(insertedListing.city).to.equal('liverpool');
       expect(insertedListing.email).to.equal('latte@mock.com');
     });
@@ -128,6 +138,7 @@ describe('/listing', () => {
           expect(listing.make).to.equal(expected.make);
           expect(listing.model).to.equal(expected.model);
           expect(listing.year).to.equal(expected.year);
+          expect(listing.price).to.equal(expected.price);
           expect(listing.city).to.equal(expected.city);
           expect(listing.email).to.equal(expected.email);
         });
@@ -192,8 +203,8 @@ describe('/listing', () => {
       it('returns a 401 if unauthorised', async () => {
         const listing = listings[0];
         const res = await request(app)
-        .patch(`/listing/${listing.id}`)
-        .send({ city: 'lamlash' });
+          .patch(`/listing/${listing.id}`)
+          .send({ city: 'lamlash' });
         expect(res.status).to.equal(401);
         expect(res.body.error).to.equal('incorrect admin code');
       });
@@ -203,8 +214,8 @@ describe('/listing', () => {
       it('deletes a listing by its id', async () => {
         const listing = listings[0];
         const res = await request(app)
-        .delete(`/listing/${listing.id}`)
-        .set('Authorizer', process.env.ADMIN_CODE);
+          .delete(`/listing/${listing.id}`)
+          .set('Authorizer', process.env.ADMIN_CODE);
         expect(res.status).to.equal(204);
         const checkDeleted = Listing.findByPk(listing.id, { raw: true });
 
@@ -215,7 +226,7 @@ describe('/listing', () => {
       it('returns a 401 if unauthorised', async () => {
         const listing = listings[0];
         const res = await request(app)
-        .delete(`/listing/${listing.id}`);
+          .delete(`/listing/${listing.id}`);
         expect(res.status).to.equal(401);
         expect(res.body.error).to.equal('incorrect admin code');
       });
