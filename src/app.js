@@ -1,9 +1,11 @@
 const express = require('express');
+const cors = require('cors');
 const listingControllers = require('./controllers/listing');
 const adminCode = require('./middleware/admin-code');
 
 const app = express();
 app.use(express.json());
+app.use(cors());
 
 app.post('/listing', adminCode, listingControllers.create);
 
