@@ -47,7 +47,6 @@ const mock6 = [
     model: 'ska',
     year: 2005,
     price: 13000,
-    price: 9000,
     city: 'london',
     email: 'cmacquire2m@biglobe.ne.jp',
   },
