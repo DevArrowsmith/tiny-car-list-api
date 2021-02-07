@@ -128,3 +128,31 @@ I used the [Mocha](https://github.com/mochajs/mocha) test framework, [Chai](http
 ---
 
 ## Credits
+
+This application uses Open Source components. You can find their source code and license information below. Huge thanks to all of the people who contribute to this work ❤️
+
+- Project: [Express](https://github.com/expressjs/express)  
+  Copyright (c) 2009-2014 TJ Holowaychuk  
+  Copyright (c) 2013-2014 Roman Shtylman  
+  Copyright (c) 2014-2015 Douglas Christopher Wilson  
+  License: [MIT](https://github.com/facebook/react/blob/master/LICENSE)
+
+- Project: [Sequelize](https://github.com/sequelize/sequelize)  
+  Copyright (c) 2014-present Sequelize contributors  
+  License: [MIT](https://github.com/sequelize/sequelize/blob/main/LICENSE)
+
+- Project: [Dotenv](https://github.com/motdotla/dotenv)  
+  Copyright (c) 2015, Scott Motte  
+  License: [BSD 2-Clause](https://github.com/motdotla/dotenv/blob/master/LICENSE)
+
+- Project: [Chai](https://github.com/chaijs/chai)  
+  Copyright (c) 2017 Chai.js Assertion Library  
+  License: [MIT](https://github.com/chaijs/chai/blob/master/LICENSE)
+
+- Project: [Mocha](https://github.com/mochajs/mocha)  
+  Copyright (c) 2011-2021 [OpenJS Foundation and contributors](https://openjsf.org)   
+  License: [MIT](https://github.com/mochajs/mocha/blob/master/LICENSE)
+
+- Project: [Supertest](https://github.com/visionmedia/supertest)  
+  Copyright (c) 2014 TJ Holowaychuk  
+  License: [MIT](https://github.com/visionmedia/supertest/blob/master/LICENSE)
