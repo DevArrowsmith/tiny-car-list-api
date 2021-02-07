@@ -28,7 +28,7 @@ The features of the front-end are detailed [here](https://github.com/DevArrowsmi
 
 To install this repo locally:
 1. [Clone](https://docs.github.com/en/github/creating-cloning-and-archiving-repositories/cloning-a-repository) this [repo](https://github.com/DevArrowsmith/tiny-car-list-api).
-2. Set up a Docker container running MySQL. Set the password to `password`.
+2. Set up a [Docker](https://www.docker.com/) container running MySQL. Set the password to `password`.
 3. Create a .env file in the root directory.
 4. Add the following environment variables to the .env file:
     ``` 
@@ -51,7 +51,7 @@ To install this repo locally:
     ```
 7. To run the tests, run `npm test`. In the unaltered repo they should pass.
 8. If all tests pass then the API can be run. Run `npm start`.
-9. Launch Postman to interact with the API.
+9. Launch [Postman](https://www.postman.com/) to interact with the API.
 
 ---
 
